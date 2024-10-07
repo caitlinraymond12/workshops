@@ -16,26 +16,41 @@ VALUES = {
 
 def create_deck():
     # TODO: Create and return a list of tuples representing cards
-    # Each tuple should contain (value, suit)
-    pass
+    deck = []
+    for value in VALUES:
+        for suit in SUITS:
+            deck.append((value, suit))
+    return deck
 
 def deal_card(deck):
-    # TODO: Remove and return a random card from the deck
-    pass
+    card = random.choice(deck)
+    deck.remove(card)
+    return card
 
 def calculate_hand_value(hand):
-    # TODO: Calculate and return the value of a hand
-    # Remember to handle Aces (1 or 11)
-    pass
+    number_of_aces = 0
+    hand_value = 0
+
+    for card in hand:
+        if card[0] == 'Ace':
+            number_of_aces+=1
+        hand_value+= VALUES[card[0]]
+    
+    while hand_value > 21 and number_of_aces > 0:
+        hand_value -= 10
+        number_of_aces -= 1
+
+    return hand_value
+
+
 
 def display_card(card):
-    # TODO: Return a string representation of a card
-    # For now, you can return a simple string like "Ace of Hearts"
-    pass
+    return f'{card[0]} of {card[1]}'
+
 
 def display_hand(hand, hide_first=False):
-    # TODO: Return a string representation of a hand
-    # For now, you can return a simple string like "Ace of Hearts, King of Spades"
+    if hide_first:
+        return f'[XXX], {display_card(hand[1])}'
     return ", ".join([display_card(card) for card in hand])
 
 def play_blackjack():
